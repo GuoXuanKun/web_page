@@ -32,6 +32,8 @@ public class StudentServlet extends HttpServlet {
             login(request,response);
         } else if ("queryMyInfo".equals(op)) {
             queryMyInfo(request,response);
+        }else if("modifyMyInfo".equals(op)){
+            modifyMyInfo(request,response);
         }
 
 
@@ -93,5 +95,25 @@ public class StudentServlet extends HttpServlet {
 
     }
 
+    protected void modifyMyInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        // 获得数据
+        String sno_str = request.getParameter("sno");
+        int sno = Integer.parseInt(sno_str);
+        String sname = request.getParameter("sname");
+        String password = request.getParameter("password");
+        String sex = request.getParameter("sex");
+        String agr_str = request.getParameter("age");
+        int age = Integer.parseInt(agr_str);
 
+        Student my = new Student(sno,sname,password,age,sex);
+        StudentDao studentDao = new StudentDao();
+        boolean flag = studentDao.modify(my);
+        if (flag){
+            request.setAttribute("msg","修改成功");
+        }else {
+            request.setAttribute("msg","修改失败");
+        }
+        request.getRequestDispatcher("student?op=queryMyInfo&sno="+sno).forward(request,response);
+
+    }
 }

@@ -21,6 +21,11 @@ public class Student {
     private String password;
 
 
-
-
+    public Student(int sno, String sname, String sex, int age, String password) {
+        this.sno = sno;
+        this.sname = sname;
+        this.sex = sex;
+        this.age = age;
+        this.password = password;
+    }
 }

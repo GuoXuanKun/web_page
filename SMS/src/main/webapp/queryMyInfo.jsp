@@ -11,6 +11,16 @@
     <title>查看我的信息</title>
 </head>
 <body>
+<script type="text/javascript">
+    <%
+    String msg = (String) request.getAttribute("msg");
+    if (msg!=null){
+    %>
+    alert("<%=msg%>")
+    <%
+    }
+    %>
+</script>
 <%
     Student my = (Student) request.getAttribute("my");
 %>
