@@ -11,6 +11,14 @@
     <title>Title</title>
 </head>
 <body>
+<%
+    Integer sno = (Integer) request.getAttribute("sno");
+    if (sno == null) {
+        request.setAttribute("msg", "请登录后访问");
+        // 回到登录界面
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
+%>
 <h1>欢迎 <%=request.getAttribute("sno")%> 同学，登录学生管理系统</h1>
 
 </body>
