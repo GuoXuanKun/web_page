@@ -53,7 +53,12 @@ public class StudentDao {
     // 1 登录方法 login(sno,sname) .... 2 模糊查询 根据姓名查询学生信息  3 修改学生信息  4 删除学生
 
 
-
+    /**
+     * 登录
+     * @param sno  学号
+     * @param password 密码
+     * @return  登录成功（true）或失败（false）
+     */
     public boolean login(int sno,String password)  {
         String sql = "select sno from t_student where sno =? and password = ? ";
         ResultSet rs  =   JDBCUtils.doQuery(sql,sno,password);
@@ -68,11 +73,71 @@ public class StudentDao {
         return flag;
     }
 
+    /**
+     * 根据学号删除学生信息
+     * @param sno 序列号
+     * @return 是否删除成功
+     */
+    public boolean deleteBySno(int sno){
+        String sql = "delete from t_student where sno = ?";
+        int flag = JDBCUtils.doUpdate(sql, sno);
+        return flag > 0;
+    }
+
+    /**
+     * 修改学生信息
+     * @param stu
+     * @return
+     */
+    public boolean modify(Student stu){
+        String sql  ="update t_student set sname = ?,sex = ?,password = ? ,age = ? where sno = ? ";
+        int t = JDBCUtils.doUpdate(sql,stu.getSname(),stu.getSex(),stu.getPassword(),stu.getAge(),stu.getSno());
+        return t>0;
+    }
+
+    /**
+     * 模糊查询 根据学生姓名
+     * @param sname 学生姓名
+     * @return 查询到的所有学生
+     */
+    public List<Student> queryStuByLike(String sname){
+        List<Student> students = new ArrayList<>();
+        String sql = "select sno ,sname, password, sex, age from t_student where sname like concat('%', ? ,'%')";
+        ResultSet rs  =  JDBCUtils.doQuery(sql, sname);
+        try{
+            while (rs.next()){
+                Student stu   = new Student();
+                stu.setSno(rs.getInt("sno"));
+                stu.setSname(rs.getString("sname"));
+                stu.setPassword(rs.getString("password"));
+                stu.setSex(rs.getString("sex"));
+                stu.setAge(rs.getInt("age"));
+                students.add(stu);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.doClose(rs);
+        }
+        return students;
+    }
+
+
     public static void main(String[] args) {
 
-        System.out.println(   new StudentDao().login(100,"123"));
+        // System.out.println(   new StudentDao().login(100,"123"));
+        /*Student s = new Student();
+        s.setAge(18);
+        s.setSex("男");
+        s.setPassword("123");
+        s.setSname("wqe");
+        s.setSno(102);
+        System.out.println(new StudentDao().update(s));*/
 
-
+        StudentDao studentDao = new StudentDao();
+        studentDao.deleteBySno(1);
+        System.out.println(studentDao.queryStuByLike("王"));
     }
 
     // 选做： 分页查询（难度）  分组查询等等
