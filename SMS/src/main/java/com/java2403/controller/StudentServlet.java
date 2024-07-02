@@ -13,28 +13,29 @@ import java.util.List;
 public class StudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            doPost(request,response);
+        doPost(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 中文处理
         request.setCharacterEncoding("utf-8");
-
-
+        //获得 参数 op
         String op  =     request.getParameter("op");
-
+        System.out.println("op:"+op);
+        // 根据op值 调用相应的方法（执行相应的操作）
         if("queryAllStudent".equals(op)){ //查询全部
+
             queryAllStudent(request,response);
 
         }else if("login".equals(op)){    // 登录
-//                login();
+            login(request,response);
         }
 
 
-            //注册
-            // 修改
-            // 删除
+        //注册
+        // 修改
+        // 删除
 
 
 
@@ -43,7 +44,6 @@ public class StudentServlet extends HttpServlet {
     }
 
     protected void queryAllStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-
         //
         StudentDao studentDao  = new StudentDao();
         List<Student> slist   =  studentDao.queryAllStudent();
@@ -55,6 +55,26 @@ public class StudentServlet extends HttpServlet {
     }
 
 
+    protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String sno_str   = request.getParameter("sno");
+        int sno  = Integer.parseInt(sno_str);// 判断是否为 数字...
+        String password  = request.getParameter("password");
+
+        StudentDao studentDao  = new StudentDao();
+        boolean flag  = studentDao.login(sno,password);
+        if(flag){
+            // 成功跳转到 欢迎界面
+            request.getRequestDispatcher("main.jsp").forward(request,response);
+
+
+        }else{
+            // 失败，回到登录界面，重新登录
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+
+        }
+
+    }
 
 
 
