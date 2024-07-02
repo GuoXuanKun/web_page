@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDao {
+public class StudentDao1 {
     // 查询所有
     public static void queryAll() throws SQLException {
         String queryAll = "select * from t_student";
