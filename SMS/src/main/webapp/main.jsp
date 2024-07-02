@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>欢迎xxx同学，登录学生管理系统</h1>
+<h1>欢迎 <%=request.getAttribute("sno")%> 同学，登录学生管理系统</h1>
 
 </body>
 </html>
