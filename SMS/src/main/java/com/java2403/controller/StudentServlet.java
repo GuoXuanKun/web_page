@@ -64,11 +64,14 @@ public class StudentServlet extends HttpServlet {
         StudentDao studentDao  = new StudentDao();
         boolean flag  = studentDao.login(sno,password);
         if(flag){
+            request.setAttribute("sno",sno);
             // 成功跳转到 欢迎界面
             request.getRequestDispatcher("main.jsp").forward(request,response);
 
 
         }else{
+            // 携带相关消息过去
+            request.setAttribute("msg","学号或密码错误,请重新登录");
             // 失败，回到登录界面，重新登录
             request.getRequestDispatcher("login.jsp").forward(request,response);
 
