@@ -87,6 +87,7 @@ public class StudentServlet extends HttpServlet {
         int sno = Integer.parseInt(sno_str);
         StudentDao studentDao = new StudentDao();
         Student my = studentDao.queryMyInfo(sno);
+        System.out.println(my.toString());
         request.setAttribute("my",my);
         request.getRequestDispatcher("queryMyInfo.jsp").forward(request,response);
 
