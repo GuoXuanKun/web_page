@@ -30,6 +30,8 @@ public class StudentServlet extends HttpServlet {
 
         }else if("login".equals(op)){    // 登录
             login(request,response);
+        } else if ("queryMyInfo".equals(op)) {
+            queryMyInfo(request,response);
         }
 
 
@@ -79,6 +81,16 @@ public class StudentServlet extends HttpServlet {
 
     }
 
+    protected void queryMyInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        //
+        String sno_str = request.getParameter("sno");
+        int sno = Integer.parseInt(sno_str);
+        StudentDao studentDao = new StudentDao();
+        Student my = studentDao.queryMyInfo(sno);
+        request.setAttribute("my",my);
+        request.getRequestDispatcher("queryMyInfo.jsp").forward(request,response);
+
+    }
 
 
 }

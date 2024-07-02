@@ -140,5 +140,32 @@ public class StudentDao {
         System.out.println(studentDao.queryStuByLike("王"));
     }
 
+    /**
+     * 根据学号 查询学生信息
+     * @param sno
+     * @return
+     */
+    public Student queryMyInfo(int sno) {
+        ResultSet rs = JDBCUtils.doQuery("select sno,sname,password,sex,age from t_table where sno = ?",sno);
+        Student my = null;
+        while (true) {
+            try {
+                while(rs.next()){
+                    my = new Student();
+                    my.setSno(sno);
+                    my.setSname(rs.getString("sname"));
+                    my.setPassword(rs.getString("password"));
+                    my.setSex(rs.getString("sex"));
+                    my.setAge(rs.getInt("age"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally{
+                JDBCUtils.doClose(rs);
+            }
+            return my;
+        }
+    }
+
     // 选做： 分页查询（难度）  分组查询等等
 }
