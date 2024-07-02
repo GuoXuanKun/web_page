@@ -11,8 +11,16 @@
     <title>Title</title>
 </head>
 <body>
+<%
+    String msg = (String) request.getAttribute("msg");
+    // 判断是否为空 , 如果为空 msg 就为 空字符串
+    if(msg==null){
+        msg="";
+    }
+%>
+<%=msg%>
 <%--    <form action="student?op=login">--%>
-<form action="student">
+<form action="student" method="post">
     <input type="hidden" name="op" value="login">
       学号：  <input name="sno"/><br/>
         密码；<input type="password" name="password"/><br/>
