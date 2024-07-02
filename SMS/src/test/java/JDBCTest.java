@@ -1,3 +1,4 @@
+import com.java2403.dao.StudentDao;
 import com.java2403.entity.Student;
 import com.java2403.util.JDBCUtils;
 
@@ -8,10 +9,12 @@ import java.util.List;
 
 public class JDBCTest {
     public static void main(String[] args) throws SQLException {
-        queryAll();
+//        queryAll();
 //        queryBySno();
 //        queryBySname();
 //        updateBySno();
+        StudentDao studentDao = new StudentDao();
+        System.out.println(studentDao.queryMyInfo(1));
     }
 
     // 查询所有

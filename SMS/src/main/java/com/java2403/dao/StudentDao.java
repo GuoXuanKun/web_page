@@ -146,7 +146,7 @@ public class StudentDao {
      * @return
      */
     public Student queryMyInfo(int sno) {
-        ResultSet rs = JDBCUtils.doQuery("select sno,sname,password,sex,age from t_table where sno = ?",sno);
+        ResultSet rs = JDBCUtils.doQuery("select sno,sname,password,sex,age from t_student where sno = ?",sno);
         Student my = null;
         while (true) {
             try {
