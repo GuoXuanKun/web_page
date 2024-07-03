@@ -139,4 +139,30 @@ public class StudentServlet extends HttpServlet {
         }
         request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
     }
+    protected void modifyStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        //  获得 数据
+        String sno_str  = request.getParameter("sno");
+        int sno  = Integer.parseInt(sno_str);
+        String sname  =request.getParameter("sname");
+        String password  =request.getParameter("password");
+        String sex  =request.getParameter("sex");
+        String age_str  = request.getParameter("age");
+        int age  = Integer.parseInt(age_str);
+
+        Student stu  = new Student(sno,sname,password,sex,age);
+        StudentDao studentDao  = new StudentDao();
+        boolean flag  =  studentDao.modify(stu);
+
+        if(flag){
+            request.setAttribute( "msg","修改成功");
+            request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+        }else{
+
+            request.setAttribute( "msg","修改失败");
+            request.getRequestDispatcher("student?op=queryStudentBySno&sno="+sno).forward(request,response);
+        }
+        // queryMyInfo(request,response); 可以实现，但是不推荐，后续可能会出现通过serlvet的 跳转
+        // 思考一下为什么这么写，这个传递的时候，是怎么传值的（request中的值）
+
+    }
 }
