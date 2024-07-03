@@ -149,7 +149,7 @@ public class StudentServlet extends HttpServlet {
         String age_str  = request.getParameter("age");
         int age  = Integer.parseInt(age_str);
 
-        Student stu  = new Student(sno,sname,password,sex,age);
+        Student stu  = new Student(sno,sname,password,age,sex);
         StudentDao studentDao  = new StudentDao();
         boolean flag  =  studentDao.modify(stu);
 
@@ -190,5 +190,15 @@ public class StudentServlet extends HttpServlet {
         }
 
 
+    }
+    protected void queryStudentBySno(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        //
+        String sno_str   =  request.getParameter("sno");
+        int sno  = Integer.parseInt(sno_str);
+        StudentDao studentDao  = new StudentDao();
+        Student stu = studentDao.queryMyInfo(sno);
+        request.setAttribute("stu",stu);
+        // 跳转到显示页面
+        request.getRequestDispatcher("modifyStudent.jsp").forward(request,response);
     }
 }
