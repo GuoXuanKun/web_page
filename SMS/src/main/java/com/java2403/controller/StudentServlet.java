@@ -165,4 +165,30 @@ public class StudentServlet extends HttpServlet {
         // 思考一下为什么这么写，这个传递的时候，是怎么传值的（request中的值）
 
     }
+    protected void addStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+
+        String sname  =request.getParameter("sname");
+        String password  =request.getParameter("password");
+        String sex  =request.getParameter("sex");
+        String age_str  = request.getParameter("age");
+        int age  = Integer.parseInt(age_str);
+
+        Student stu = new Student(sname,password,sex,age);
+
+        StudentDao studentDao  = new StudentDao();
+        boolean flag =   studentDao.addStudent(stu);
+        if(flag){
+            request.setAttribute("msg","添加成功");
+            request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+
+
+        }else{
+
+            request.setAttribute("msg","添加失败");
+            request.getRequestDispatcher("addStudent.jsp").forward(request,response);
+        }
+
+
+    }
 }
