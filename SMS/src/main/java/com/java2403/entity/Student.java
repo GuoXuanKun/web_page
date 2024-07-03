@@ -28,4 +28,11 @@ public class Student {
         this.age = age;
         this.password = password;
     }
+
+    public Student(String sname, String password, String sex, int age) {
+        this.sname = sname;
+        this.sex = sex;
+        this.age = age;
+        this.password = password;
+    }
 }
