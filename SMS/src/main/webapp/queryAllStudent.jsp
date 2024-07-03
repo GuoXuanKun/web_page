@@ -10,24 +10,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>查询所有学生</title>
 </head>
 <body>
+<script>
+    <%
+    String msg = (String) request.getAttribute("msg");
+    if(msg!=null){
+    %>
+    alert("<%=msg%>")
+    <%
+    }
+    %>
+</script>
     <%
      List<Student> slist   = (List<Student>) request.getAttribute("slist");// 通过属性名 slist 获得 数据
 
     %>
+<table border="1">
     <%
         for(Student stu :slist){
     %>
 
-    <%=stu %><br/>
+    <tr>
+        <td><%=stu.getSno()%></td>
+        <td><%=stu.getSname()%></td>
+        <td><%=stu.getPassword()%></td>
+        <td><%=stu.getSex()%></td>
+        <td><%=stu.getAge()%></td>
+    </tr>
 
     <%
         }
     %>
 
 
-
+</table>
 </body>
 </html>
