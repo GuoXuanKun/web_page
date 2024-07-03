@@ -125,5 +125,18 @@ public class StudentServlet extends HttpServlet {
         request.getRequestDispatcher("student?op=queryMyInfo&sno="+sno).forward(request,response);
 
     }
+    protected void deleteStudentBySno(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String sno_str  =  request.getParameter("sno");
+        int sno  = Integer.parseInt(sno_str);
+
+        StudentDao studentDao  = new StudentDao();
+        boolean flag =  studentDao.deleteBySno(sno);
+        if(flag){
+            request.setAttribute("msg","删除成功");
+        }else{
+            request.setAttribute("msg","删除失败");
+        }
+        request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+    }
 }
