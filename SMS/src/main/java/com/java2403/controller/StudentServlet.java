@@ -34,6 +34,15 @@ public class StudentServlet extends HttpServlet {
             queryMyInfo(request,response);
         }else if("modifyMyInfo".equals(op)){
             modifyMyInfo(request,response);
+        }else if("deleteStudentBySno".equals(op)){
+            deleteStudentBySno(request,response);
+        }else if("modifyStudent".equals(op)){
+            modifyStudent(request,response);
+        }else if("addStudent".equals(op)){
+            addStudent(request,response);
+        }else if("queryStudentBySno".equals(op)){
+//            op.equals("queryStudentBySno")
+            queryStudentBySno(request,response);
         }
 
 
@@ -116,4 +125,5 @@ public class StudentServlet extends HttpServlet {
         request.getRequestDispatcher("student?op=queryMyInfo&sno="+sno).forward(request,response);
 
     }
+
 }
