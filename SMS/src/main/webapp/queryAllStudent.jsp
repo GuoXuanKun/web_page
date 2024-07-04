@@ -13,6 +13,13 @@
     <title>Title</title>
 </head>
 <body>
+<%
+    Integer sno = (Integer) request.getAttribute("sno");
+    if(sno == null){
+        session.setAttribute("msg","请登录后,在访问!");
+        response.sendRedirect("login.jsp");
+    }
+%>
     <script type="text/javascript" >
 
 
