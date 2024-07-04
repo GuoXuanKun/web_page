@@ -77,9 +77,13 @@ public class StudentServlet extends HttpServlet {
         StudentDao studentDao  = new StudentDao();
         boolean flag  = studentDao.login(sno,password);
         if(flag){
-            request.setAttribute("sno",sno);
+//            request.setAttribute("sno",sno);
+            // 用 session 传数据
+            HttpSession session = request.getSession();
+            session.setAttribute("sno",sno);
             // 成功跳转到 欢迎界面
-            request.getRequestDispatcher("main.jsp").forward(request,response);
+//            request.getRequestDispatcher("main.jsp").forward(request,response);
+            response.sendRedirect("main.jsp");
 
 
         }else{

@@ -12,12 +12,13 @@
 </head>
 <body>
 <%
-    Integer sno = (Integer) request.getAttribute("sno");
-    if (sno == null) {
-        request.setAttribute("msg", "请登录后访问");
-        // 回到登录界面
-        request.getRequestDispatcher("login.jsp").forward(request, response);
-    }
+//    Integer sno = (Integer) request.getAttribute("sno");
+    Integer sno = (Integer) session.getAttribute("sno");
+//    if (sno == null) {
+//        request.setAttribute("msg", "请登录后访问");
+//        // 回到登录界面
+//        request.getRequestDispatcher("login.jsp").forward(request, response);
+//    }
 %>
 <h1>欢迎 <%=request.getAttribute("sno")%> 同学，登录学生管理系统</h1>
 <a href="student?op=queryAllStudent">查询全部(管理员权限)</a><br/>
