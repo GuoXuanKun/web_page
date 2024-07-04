@@ -43,6 +43,8 @@ public class StudentServlet extends HttpServlet {
         }else if("queryStudentBySno".equals(op)){
 //            op.equals("queryStudentBySno")
             queryStudentBySno(request,response);
+        }else if("logout".equals(op)){
+            logout(request,response);
         }
 
 
@@ -204,5 +206,12 @@ public class StudentServlet extends HttpServlet {
         request.setAttribute("stu",stu);
         // 跳转到显示页面
         request.getRequestDispatcher("modifyStudent.jsp").forward(request,response);
+    }
+    protected void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+        HttpSession session = request.getSession();
+        session.removeAttribute("sno");
+        session.setAttribute("msg","退出成功,请重新登录");
+        response.sendRedirect("login.jsp");
     }
 }
