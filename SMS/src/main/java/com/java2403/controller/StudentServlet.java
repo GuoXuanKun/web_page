@@ -114,7 +114,7 @@ public class StudentServlet extends HttpServlet {
         String agr_str = request.getParameter("age");
         int age = Integer.parseInt(agr_str);
 
-        Student my = new Student(sno,sname,password,age,sex);
+        Student my = new Student(sno,sname,sex,age,password);
         StudentDao studentDao = new StudentDao();
         boolean flag = studentDao.modify(my);
         if (flag){
