@@ -14,7 +14,7 @@
 </head>
 <body>
 <%
-    Integer sno = (Integer) request.getAttribute("sno");
+    Integer sno = (Integer) session.getAttribute("sno");
     if(sno == null){
         session.setAttribute("msg","请登录后,在访问!");
         response.sendRedirect("login.jsp");
