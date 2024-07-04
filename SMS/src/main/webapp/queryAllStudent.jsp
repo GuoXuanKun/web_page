@@ -10,41 +10,54 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>查询所有学生</title>
+    <title>Title</title>
 </head>
 <body>
-<script>
-    <%
-    String msg = (String) request.getAttribute("msg");
-    if(msg!=null){
-    %>
-    alert("<%=msg%>")
-    <%
-    }
-    %>
-</script>
+    <script type="text/javascript" >
+
+
+        <%
+          String msg  = (String) request.getAttribute("msg");
+          if(msg!=null){
+        %>
+            alert("<%=msg%>");
+        <%
+
+          }
+
+        %>
+
+    </script>
+
+
     <%
      List<Student> slist   = (List<Student>) request.getAttribute("slist");// 通过属性名 slist 获得 数据
 
     %>
-<table border="1">
+
+    <table border="1">
+        <tr><th>学号</th><th>姓名</th><th>密码</th><th>性别</th><th>年龄</th><th>操作</th></tr>
+
+
     <%
         for(Student stu :slist){
     %>
-
-    <tr>
-        <td><%=stu.getSno()%></td>
-        <td><%=stu.getSname()%></td>
-        <td><%=stu.getPassword()%></td>
-        <td><%=stu.getSex()%></td>
-        <td><%=stu.getAge()%></td>
-    </tr>
+        <tr>
+            <td><%=stu.getSno()%></td>
+            <td><%=stu.getSname()%></td>
+            <td><%=stu.getPassword()%></td>
+            <td><%=stu.getSex()%></td>
+            <td><%=stu.getAge()%></td>
+            <td>
+                <a href="student?op=queryStudentBySno&sno=<%=stu.getSno()%>">修改</a>|  <a href="student?op=deleteStudentBySno&sno=<%=stu.getSno()%>">删除</a>
+            </td>
+        </tr>
 
     <%
         }
     %>
+    </table>
 
 
-</table>
 </body>
 </html>
