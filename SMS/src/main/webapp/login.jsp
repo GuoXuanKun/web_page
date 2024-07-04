@@ -25,8 +25,8 @@
 <%--    <form action="student?op=login">--%>
 <form action="student" method="post">
     <input type="hidden" name="op" value="login">
-      学号：  <input name="sno"/><br/>
-        密码: <input type="password" name="password"/><br/>
+      学号:  <input name="sno"/><br/>
+      密码:  <input type="password" name="password"/><br/>
         <input type="submit" value="登录"/>
 
 
