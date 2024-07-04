@@ -12,7 +12,10 @@
 </head>
 <body>
 <%
-    String msg = (String) request.getAttribute("msg");
+//    String msg = (String) request.getAttribute("msg");
+    String msg = (String) session.getAttribute("msg");
+    // 取得消息后就删除消息
+    session.removeAttribute("msg");
     // 判断是否为空 , 如果为空 msg 就为 空字符串
     if(msg==null){
         msg="";
