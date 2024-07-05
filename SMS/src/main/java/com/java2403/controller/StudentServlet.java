@@ -23,6 +23,22 @@ public class StudentServlet extends HttpServlet {
         //获得 参数 op
         String op  =     request.getParameter("op");
         System.out.println("op:"+op);
+        HttpSession session = request.getSession();
+        Integer sno = (Integer) session.getAttribute("sno");
+
+        // 权限控制
+        // 排除 login这个操作，因为 session中 的sno 需要 登录后才能 被set 进去
+        if(!"login".equals(op)){
+            // 如果 session中没有 sno 这个属性，说明没登录成功，跳转到 登录界面
+            if(sno==null){
+
+                session.setAttribute("msg","请登录后再访问");
+                response.sendRedirect("login.jsp");
+                // 中途“截胡”，在后面加一个return
+                return;//  后续代码就不要执行了
+
+            }
+        }
         // 根据op值 调用相应的方法（执行相应的操作）
         if("queryAllStudent".equals(op)){ //查询全部
 
