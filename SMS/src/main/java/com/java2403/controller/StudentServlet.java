@@ -91,6 +91,7 @@ public class StudentServlet extends HttpServlet {
         String sno_str   = request.getParameter("sno");
         int sno  = Integer.parseInt(sno_str);// 判断是否为 数字...
         String password  = request.getParameter("password");
+        String rememberMe  =   request.getParameter("rememberMe");
 
         StudentDao studentDao  = new StudentDao();
         boolean flag  = studentDao.login(sno,password);
@@ -101,6 +102,32 @@ public class StudentServlet extends HttpServlet {
             session.setAttribute("sno",sno);
             // 成功跳转到 欢迎界面
 //            request.getRequestDispatcher("main.jsp").forward(request,response);
+            //当登录成功后，将学号 和 密码 记录下啦
+            if("true".equals(rememberMe)){
+
+                Cookie snoCookie   = new Cookie("sno",sno+"");
+                snoCookie.setMaxAge(7*24*60*60); // 设置coockie 最大寿命 单位 秒
+
+                Cookie passwordCookie   = new Cookie("password",password);
+                passwordCookie.setMaxAge(7*24*60*60);
+
+                response.addCookie(snoCookie);
+                response.addCookie(passwordCookie);
+
+            }else{
+                //取消掉
+                // 当 cookie name值 和  浏览器中 旧的cookie 名字 相同 就会 取代  它
+                Cookie snoCookie   = new Cookie("sno","");
+                snoCookie.setMaxAge(0);
+
+                Cookie passwordCookie   = new Cookie("password","");
+                passwordCookie.setMaxAge(0);
+
+                response.addCookie(snoCookie);
+                response.addCookie(passwordCookie);
+
+
+            }
             response.sendRedirect("main.jsp");
 
 

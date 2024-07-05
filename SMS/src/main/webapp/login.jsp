@@ -22,11 +22,31 @@
     }
 %>
 <%=msg%>
+<%
+    String sno  = "";
+    String password ="";
+
+    Cookie[]  cookies  =  request.getCookies();
+    if(cookies!=null){
+
+        for (Cookie cookie :cookies){
+            if("sno".equals(cookie.getName())){
+                sno  = cookie.getValue();
+            }
+            if("password".equals(cookie.getName())){
+                password  = cookie.getValue();
+            }
+
+        }
+
+    }
+%>
 <%--    <form action="student?op=login">--%>
 <form action="student" method="post">
     <input type="hidden" name="op" value="login">
-      学号:  <input name="sno"/><br/>
-      密码:  <input type="password" name="password"/><br/>
+    学号 :  <input name="sno" value="<%=sno%>"/><br/>
+    密码 :  <input type="password" name="password" value="<%=password%>"/><br/>
+    <input type="checkbox"  name="rememberMe"  value="true" >记住我<br/>
         <input type="submit" value="登录"/>
 
 

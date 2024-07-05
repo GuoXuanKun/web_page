@@ -21,6 +21,10 @@ public class AddCookieServlet extends HttpServlet {
         Cookie c1  = new Cookie("username","zhw");
         Cookie c2  = new Cookie("password","123");
 
+
+//        设置保存时间
+        c1.setMaxAge(7*24*60*60);
+        c2.setMaxAge(7*24*60*60);
         // 怎么将cookie对象 放在浏览器中（ 种 cookie  ）  服务器 将 cookie 种到 浏览器中
 
         response.addCookie(c1);
