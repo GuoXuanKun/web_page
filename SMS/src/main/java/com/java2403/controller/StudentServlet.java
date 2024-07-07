@@ -7,7 +7,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "StudentServlet", value = "/student")
 public class StudentServlet extends HttpServlet {
@@ -61,6 +63,8 @@ public class StudentServlet extends HttpServlet {
             queryStudentBySno(request,response);
         }else if("logout".equals(op)){
             logout(request,response);
+        }else if("admin".equals(op)){
+            admin(request,response);
         }
 
 
@@ -73,6 +77,8 @@ public class StudentServlet extends HttpServlet {
 
 
     }
+    // 增加 Map 集合来存哈希地址
+    public static final Map<String,Integer> ADDR_COUNT = new HashMap<>();
 
     protected void queryAllStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         //
@@ -138,6 +144,9 @@ public class StudentServlet extends HttpServlet {
             visitCount++;
             application.setAttribute("visitCount",visitCount);
 
+            // 将计数 IP地址 集合传给 main.jsp
+            application.setAttribute("ADDR_COUNT",ADDR_COUNT);
+
             response.sendRedirect("main.jsp");
 
 
@@ -147,6 +156,13 @@ public class StudentServlet extends HttpServlet {
             // 失败，回到登录界面，重新登录
             request.getRequestDispatcher("login.jsp").forward(request,response);
 
+        }
+
+        // 将 ip地址 加入 Map 集合
+        if (ADDR_COUNT.get(request.getRemoteAddr())==null){
+            ADDR_COUNT.put(request.getRemoteAddr(),1);
+        }else{
+            ADDR_COUNT.put(request.getRemoteAddr(),ADDR_COUNT.get(request.getRemoteAddr())+1);
         }
 
     }
@@ -266,5 +282,12 @@ public class StudentServlet extends HttpServlet {
         session.removeAttribute("sno");
         session.setAttribute("msg","退出成功,请重新登录");
         response.sendRedirect("login.jsp");
+    }
+    public void admin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+        // 将 统计登录人数的 集合发送给 admin.jsp
+        ServletContext application = request.getServletContext();
+        application.setAttribute("ADDR_COUNT",ADDR_COUNT);
+        response.sendRedirect("admin.jsp");
     }
 }
