@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
+<%--显示目前有多少人 登录过 网站--%>
+<h2>目前有 <%=application.getAttribute("visitCount")%></h2>
 <%
 //    Integer sno = (Integer) request.getAttribute("sno");
     Integer sno = (Integer) session.getAttribute("sno");

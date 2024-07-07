@@ -128,6 +128,16 @@ public class StudentServlet extends HttpServlet {
 
 
             }
+            // 登录成功后，找到 application 对象 ， 然后 visitCount + 1
+            ServletContext application = request.getServletContext();
+            // 如果启动后,第一次登录,添加一个 visitCount 属性
+            Integer visitCount = (Integer) application.getAttribute("visitCount");
+            if (visitCount==null){
+                visitCount = 0;
+            }
+            visitCount++;
+            application.setAttribute("visitCount",visitCount);
+
             response.sendRedirect("main.jsp");
 
 
