@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(filterName = "DemoFilter",value = "/*")
+@WebFilter(filterName = "Demo01Filter",value = "/*")
 
 /*
 
@@ -22,7 +22,7 @@ import java.io.IOException;
 
 
 
-public class DemoFilter implements Filter {
+public class Demo01Filter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
 
@@ -32,13 +32,13 @@ public class DemoFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         // 当符合 value值 路径的请求 就会 进来这个 当前的方法
-        System.out.println("demo Filter 过滤器  前 ");
+        System.out.println("Demo01Filter 过滤器  前 ");
 
 
 
         // 链   过滤器链  （ 当前的过滤器 结束后，前往下一个 过滤器  或者 目的地 ）
         chain.doFilter(request, response);
 
-        System.out.println("demo Filter 过滤器  后 ");
+        System.out.println("Demo01Filter 过滤器  后 ");
     }
 }
