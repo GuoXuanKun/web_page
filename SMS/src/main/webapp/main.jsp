@@ -12,10 +12,10 @@
 </head>
 <body>
 <%
-    Map<String,Integer> map = (Map<String, Integer>) application.getAttribute("ADDR_COUNT");
+//    Map<String,Integer> map = (Map<String, Integer>) application.getAttribute("ADDR_COUNT");
 %>
 <%--显示目前有多少人 登录过 网站--%>
-<h2>目前有 <%=application.getAttribute("visitCount")%> 人登陆过本网站 &nbsp;&nbsp;&nbsp;  目前有 <%=map.size()%> 人在线</h2>
+<h2>目前有 <%=application.getAttribute("visitCount")%> 人登陆过本网站</h2>
 <%
 //    Integer sno = (Integer) request.getAttribute("sno");
     Integer sno = (Integer) session.getAttribute("sno");
