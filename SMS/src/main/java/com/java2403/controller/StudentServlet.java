@@ -78,7 +78,7 @@ public class StudentServlet extends HttpServlet {
 
     }
     // 增加 Map 集合来存哈希地址
-    public static final Map<String,Integer> ADDR_COUNT = new HashMap<>();
+//    public static final Map<String,Integer> ADDR_COUNT = new HashMap<>();
 
     protected void queryAllStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         //
@@ -144,9 +144,24 @@ public class StudentServlet extends HttpServlet {
             visitCount++;
             application.setAttribute("visitCount",visitCount);
 
+
+
+
+            //
+            Map<String,Integer> ADDR_COUNT = (Map<String, Integer>) application.getAttribute("ADDR_COUNT");
+            if (ADDR_COUNT == null){
+                 ADDR_COUNT = new HashMap<>();
+            }
+            // 将 ip地址 加入 Map 集合
+            if (ADDR_COUNT.get(request.getRemoteAddr())==null){
+                ADDR_COUNT.put(request.getRemoteAddr(),1);
+            }else{
+                ADDR_COUNT.put(request.getRemoteAddr(),ADDR_COUNT.get(request.getRemoteAddr())+1);
+            }
             // 将计数 IP地址 集合传给 main.jsp
             application.setAttribute("ADDR_COUNT",ADDR_COUNT);
 
+            // 转发重定向( 跳转 )
             response.sendRedirect("main.jsp");
 
 
@@ -158,12 +173,7 @@ public class StudentServlet extends HttpServlet {
 
         }
 
-        // 将 ip地址 加入 Map 集合
-        if (ADDR_COUNT.get(request.getRemoteAddr())==null){
-            ADDR_COUNT.put(request.getRemoteAddr(),1);
-        }else{
-            ADDR_COUNT.put(request.getRemoteAddr(),ADDR_COUNT.get(request.getRemoteAddr())+1);
-        }
+
 
     }
 
@@ -287,7 +297,7 @@ public class StudentServlet extends HttpServlet {
 
         // 将 统计登录人数的 集合发送给 admin.jsp
         ServletContext application = request.getServletContext();
-        application.setAttribute("ADDR_COUNT",ADDR_COUNT);
+//        application.setAttribute("ADDR_COUNT",ADDR_COUNT);
         response.sendRedirect("admin.jsp");
     }
 }
