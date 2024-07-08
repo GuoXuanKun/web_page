@@ -1,5 +1,7 @@
 package com.java2403.listener;
 
+import com.java2403.dao.AdminDao;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,30 +16,35 @@ public class ApplicationListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ServletContext application  =  sce.getServletContext();// 获得上下文对象
         // 1 从数据库中获得 访问人数
+        AdminDao adminDao = new AdminDao();
+        int visitCount = adminDao.getVisitCount();
 
-        // a 如果有人数（直接使用）
-        // 比如从数据库中获得到 visitCount=60;
+        // 2 将数据放到 application 对象中
+        // 获得 application 对象
+        ServletContext application = sce.getServletContext();
+        application.setAttribute("visitCount",visitCount);
 
+        System.out.println("访问记录获得成功");
 
-        // b 如果是空的，则 直接 添加一个初始化数据 application.setAttribute("visitCount",0);
-        //visitCount=0;
-
-        //将数据保存到上下文中
-        //application.setAttribute("visitCount",visitCount);
 
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
 
-        // 先 通过 上下文对象 application获得 visitCount
+        // 1 先 通过 上下文对象 application获得 visitCount
+        ServletContext application = sce.getServletContext();
+        int visitCount = (Integer) application.getAttribute("visitCount");
 
-        // 将访问人数 insert 或 update 到 数据库中（设计一张表  访问人数表  就一个字段 人数字段 10  ）
-        // 或则表 这么设计  序列号（主键）  访问人数 数据更新时间
-
-
+        // 2 将访问人数 insert 或 update 到 数据库中（设计一张表  访问人数表  就一个字段 人数字段 10  ）
+        AdminDao adminDao = new AdminDao();
+        boolean flag = adminDao.saveVisitCount(visitCount);
+        if(flag){
+            System.out.println("访问记录保存成功");
+        }else{
+            System.out.println("访问记录保存失败");
+        }
 
 
     }
