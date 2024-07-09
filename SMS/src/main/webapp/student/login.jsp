@@ -25,6 +25,7 @@
 <%
     String sno  = "";
     String password ="";
+    String rememberMe = "";
 
     Cookie[]  cookies  =  request.getCookies();
     if(cookies!=null){
@@ -36,7 +37,9 @@
             if("password".equals(cookie.getName())){
                 password  = cookie.getValue();
             }
-
+            if("rememberMe".equals(cookie.getName())){
+                rememberMe  = cookie.getValue();
+            }
         }
 
     }
