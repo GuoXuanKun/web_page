@@ -99,12 +99,14 @@ public class StudentServlet extends HttpServlet {
         String password  = request.getParameter("password");
         String rememberMe  =   request.getParameter("rememberMe");
 
+        HttpSession session = request.getSession();
+
         StudentDao studentDao  = new StudentDao();
         boolean flag  = studentDao.login(sno,password);
         if(flag){
 //            request.setAttribute("sno",sno);
             // 用 session 传数据
-            HttpSession session = request.getSession();
+
             session.setAttribute("sno",sno);
             // 成功跳转到 欢迎界面
 //            request.getRequestDispatcher("main.jsp").forward(request,response);
@@ -167,9 +169,9 @@ public class StudentServlet extends HttpServlet {
 
         }else{
             // 携带相关消息过去
-            request.setAttribute("msg","学号或密码错误,请重新登录");
+            session.setAttribute("msg","学号或密码错误,请重新登录");
             // 失败，回到登录界面，重新登录
-            request.getRequestDispatcher("login.jsp").forward(request,response);
+            response.sendRedirect("login.jsp");
 
         }
 
@@ -234,7 +236,7 @@ public class StudentServlet extends HttpServlet {
         String age_str  = request.getParameter("age");
         int age  = Integer.parseInt(age_str);
 
-        Student stu  = new Student(sno,sname,password,age,sex);
+        Student stu  = new Student(sno,sname,sex,age,password);
         StudentDao studentDao  = new StudentDao();
         boolean flag  =  studentDao.modify(stu);
 
