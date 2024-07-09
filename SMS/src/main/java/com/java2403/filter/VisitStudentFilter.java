@@ -39,7 +39,14 @@ public class VisitStudentFilter implements Filter {
         }else{
             session.setAttribute("msg","请先登录后，再访问");
            // resp.sendRedirect("login.jsp");
-            String basePath ="http://"+req.getLocalAddr() +":"+ req.getLocalPort()+req.getContextPath()+"/";
+//            String basePath ="http://"+req.getLocalAddr() +":"+ req.getLocalPort()+req.getContextPath()+"/";
+            String localAddr = req.getLocalAddr();
+            if("0:0:0:0:0:0:0:1".equals(localAddr)){
+                localAddr="localhost";
+            }
+
+            String basePath ="http://"+localAddr +":"+ req.getLocalPort()+req.getContextPath()+"/";
+
             // 使用绝对路径 防止 有些人 请求路径写成
 //            http://127.0.0.1:8080/JAVAEE_Project/student
 //            http://127.0.0.1:8080/JAVAEE_Project/student/xxxx/xxx/xxx
