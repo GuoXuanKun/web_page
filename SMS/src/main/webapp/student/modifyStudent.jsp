@@ -27,7 +27,7 @@
   Student stu   = (Student) request.getAttribute("stu");
 %>
 
-<form method="post" action="">
+<form method="post" action="manage">
   <input type="hidden" name="op" value="modifyStudent"/>
   <%-- 反显  将原来输入的内容，反过来显示出来 --%>
   学号： <input type="text" name="sno" value="<%=stu.getSno()%>" readonly/> <br/> <%--只读 学号不能改--%>
