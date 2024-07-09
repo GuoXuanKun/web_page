@@ -26,9 +26,9 @@
         response.sendRedirect("login.jsp");
     }
 %>
-<h1>欢迎 <%=session.getAttribute("sno")%> 同学，登录学生管理系统  -- <a href="student?op=logout">登出</a></h1>
-<a href="student?op=queryAllStudent">查询全部(管理员权限)</a><br/>
-<a href="student?op=queryMyInfo&sno=<%=sno%>">查询本人信息</a><br/>
+<h1>欢迎 <%=session.getAttribute("sno")%> 同学，登录学生管理系统  -- <a href="?op=logout">登出</a></h1>
+<a href="?op=queryAllStudent">查询全部(管理员权限)</a><br/>
+<a href="?op=queryMyInfo&sno=<%=sno%>">查询本人信息</a><br/>
 <a href="addStudent.jsp">添加学生信息(类似于注册)</a><br/>
 
 

@@ -25,7 +25,7 @@
     Student my = (Student) request.getAttribute("my");
 %>
 <%=my%>
-<form method="post" action="student">
+<form method="post" action="">
     <input type="hidden" name = "op" value="modifyMyInfo"/>
 <%--   反显--%>
     学号: <input type="text" name="sno" value="<%=my.getSno()%>" readonly/><br/>

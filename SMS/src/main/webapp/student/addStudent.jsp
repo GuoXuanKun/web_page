@@ -12,7 +12,7 @@
 </head>
 <body>
 <h1>添加学生</h1>
-<form method="post" action="student">
+<form method="post" action="">
     <input type="hidden" name="op" value="addStudent"/>
 
 <%--    学号： <input type="text" name="sno" value="<%=my.getSno()%>" readonly/> <br/> &lt;%&ndash;只读 学号不能改&ndash;%&gt;--%>

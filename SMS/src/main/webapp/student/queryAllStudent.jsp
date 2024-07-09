@@ -56,7 +56,7 @@
             <td><%=stu.getSex()%></td>
             <td><%=stu.getAge()%></td>
             <td>
-                <a href="student?op=queryStudentBySno&sno=<%=stu.getSno()%>">修改</a>|  <a href="student?op=deleteStudentBySno&sno=<%=stu.getSno()%>">删除</a>
+                <a href="?op=queryStudentBySno&sno=<%=stu.getSno()%>">修改</a>|  <a href="?op=deleteStudentBySno&sno=<%=stu.getSno()%>">删除</a>
             </td>
         </tr>
 
