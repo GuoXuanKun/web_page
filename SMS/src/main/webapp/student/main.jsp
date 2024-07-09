@@ -16,16 +16,18 @@
 %>
 <%--显示目前有多少人 登录过 网站--%>
 <h2>目前有 <%=application.getAttribute("visitCount")%> 人登陆过本网站</h2>
-<%
-//    Integer sno = (Integer) request.getAttribute("sno");
-    Integer sno = (Integer) session.getAttribute("sno");
-    if (sno == null) {
-//        request.setAttribute("msg", "请登录后访问");
-        session.setAttribute("msg","请登录后,再访问!");
-        // 回到登录界面
-        response.sendRedirect("login.jsp");
-    }
-%>
+
+<%  Integer sno  = (Integer) session.getAttribute("sno"); %>
+<%--<%--%>
+<%--//    Integer sno = (Integer) request.getAttribute("sno");--%>
+<%--    Integer sno = (Integer) session.getAttribute("sno");--%>
+<%--    if (sno == null) {--%>
+<%--//        request.setAttribute("msg", "请登录后访问");--%>
+<%--        session.setAttribute("msg","请登录后,再访问!");--%>
+<%--        // 回到登录界面--%>
+<%--        response.sendRedirect("login.jsp");--%>
+<%--    }--%>
+<%--%>--%>
 <h1>欢迎 <%=session.getAttribute("sno")%> 同学，登录学生管理系统  -- <a href="manage?op=logout">登出</a></h1>
 <a href="manage?op=queryAllStudent">查询全部(管理员权限)</a><br/>
 <a href="manage?op=queryMyInfo&sno=<%=sno%>">查询本人信息</a><br/>

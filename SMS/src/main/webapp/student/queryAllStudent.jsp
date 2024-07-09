@@ -15,10 +15,10 @@
 <body>
 <%
     Integer sno = (Integer) session.getAttribute("sno");
-    if(sno == null){
-        session.setAttribute("msg","请登录后,在访问!");
-        response.sendRedirect("login.jsp");
-    }
+//    if(sno == null){
+//        session.setAttribute("msg","请登录后,在访问!");
+//        response.sendRedirect("login.jsp");
+//    }
 %>
     <script type="text/javascript" >
 
@@ -56,7 +56,7 @@
             <td><%=stu.getSex()%></td>
             <td><%=stu.getAge()%></td>
             <td>
-                <a href="manage?op=queryStudentBySno&sno=<%=stu.getSno()%>">修改</a>|  <a href="manage?op=deleteStudentBySno&sno=<%=stu.getSno()%>">删除</a>
+                <a href="?op=queryStudentBySno&sno=<%=stu.getSno()%>">修改</a>|  <button onclick="deleteFunc(<%=stu.getSno()%>)">删除</button>| <a href="manage?op=deleteStudentBySno&sno=<%=stu.getSno()%>">删除</a>
             </td>
         </tr>
 
@@ -64,6 +64,25 @@
         }
     %>
     </table>
+
+<script type="text/javascript">
+
+    function  deleteFunc(sno){
+
+        // window.alert("消息弹出框");
+        // window.prompt("输入弹出框","默认值");
+        var flag =  window.confirm("确认删除学号是"+sno+"学生信息吗？");
+
+        if(flag){
+            location.href="manage?op=deleteStudentBySno&sno="+sno;
+        }
+
+
+
+    }
+
+</script>
+
 
 
 </body>

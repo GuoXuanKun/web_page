@@ -28,19 +28,22 @@ public class StudentServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Integer sno = (Integer) session.getAttribute("sno");
 
-        // 权限控制
-        // 排除 login这个操作，因为 session中 的sno 需要 登录后才能 被set 进去
-        if(!"login".equals(op)){
-            // 如果 session中没有 sno 这个属性，说明没登录成功，跳转到 登录界面
-            if(sno==null){
+//        // 权限控制
+//        // 排除 login这个操作，因为 session中 的sno 需要 登录后才能 被set 进去
+//        if(!"login".equals(op)){
+//            // 如果 session中没有 sno 这个属性，说明没登录成功，跳转到 登录界面
+//            if(sno==null){
+//
+//                session.setAttribute("msg","请登录后再访问");
+//                response.sendRedirect("login.jsp");
+//                // 中途“截胡”，在后面加一个return
+//                return;//  后续代码就不要执行了
+//
+//            }
+//        }
 
-                session.setAttribute("msg","请登录后再访问");
-                response.sendRedirect("login.jsp");
-                // 中途“截胡”，在后面加一个return
-                return;//  后续代码就不要执行了
 
-            }
-        }
+
         // 根据op值 调用相应的方法（执行相应的操作）
         if("queryAllStudent".equals(op)){ //查询全部
 
@@ -95,11 +98,25 @@ public class StudentServlet extends HttpServlet {
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String sno_str   = request.getParameter("sno");
-        int sno  = Integer.parseInt(sno_str);// 判断是否为 数字...
+        int sno  =0;
+        HttpSession session  =   request.getSession();
+
+        // 万一 转换异常 ，try catch 包起来，就不报错了。改成 回到 登录界面，并提示
+        try {
+            sno  = Integer.parseInt(sno_str);// 判断是否为 数字...
+        }catch (Exception e){
+
+            session.setAttribute("msg","学号不能为非数字，请重新登录!");// message
+            // request.getRequestDispatcher("login.jsp").forward(request,response);
+            response.sendRedirect("login.jsp");
+            return; // 记得return
+
+        }
+
         String password  = request.getParameter("password");
         String rememberMe  =   request.getParameter("rememberMe");
 
-        HttpSession session = request.getSession();
+//        HttpSession session = request.getSession();
 
         StudentDao studentDao  = new StudentDao();
         boolean flag  = studentDao.login(sno,password);
@@ -209,7 +226,7 @@ public class StudentServlet extends HttpServlet {
         }else {
             request.setAttribute("msg","修改失败");
         }
-        request.getRequestDispatcher("student?op=queryMyInfo&sno="+sno).forward(request,response);
+        request.getRequestDispatcher("manage?op=queryMyInfo&sno="+sno).forward(request,response);
 
     }
     protected void deleteStudentBySno(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -219,12 +236,16 @@ public class StudentServlet extends HttpServlet {
 
         StudentDao studentDao  = new StudentDao();
         boolean flag =  studentDao.deleteBySno(sno);
+        HttpSession session = request.getSession();
         if(flag){
-            request.setAttribute("msg","删除成功");
+//            request.setAttribute("msg","删除成功");
+            session.setAttribute("msg","删除成功");
         }else{
-            request.setAttribute("msg","删除失败");
+//            request.setAttribute("msg","删除失败");
+            session.setAttribute("msg","删除失败");
         }
-        request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+//        request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+        response.sendRedirect("manage?op=queryAllStudent");
     }
     protected void modifyStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         //  获得 数据
@@ -240,13 +261,19 @@ public class StudentServlet extends HttpServlet {
         StudentDao studentDao  = new StudentDao();
         boolean flag  =  studentDao.modify(stu);
 
+        HttpSession session = request.getSession();
+
         if(flag){
-            request.setAttribute( "msg","修改成功");
-            request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+//            request.setAttribute( "msg","修改成功");
+//            request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+            session.setAttribute( "msg","修改成功");
+            response.sendRedirect("manage?op=queryAllStudent");
         }else{
 
-            request.setAttribute( "msg","修改失败");
-            request.getRequestDispatcher("student?op=queryStudentBySno&sno="+sno).forward(request,response);
+//            request.setAttribute( "msg","修改失败");
+//            request.getRequestDispatcher("student?op=queryStudentBySno&sno="+sno).forward(request,response);
+            session.setAttribute( "msg","修改失败");
+            response.sendRedirect("manage?op=queryStudentBySno&sno="+sno);
         }
         // queryMyInfo(request,response); 可以实现，但是不推荐，后续可能会出现通过serlvet的 跳转
         // 思考一下为什么这么写，这个传递的时候，是怎么传值的（request中的值）
@@ -262,18 +289,23 @@ public class StudentServlet extends HttpServlet {
         int age  = Integer.parseInt(age_str);
 
         Student stu = new Student(sname,password,sex,age);
-
+        HttpSession session = request.getSession();
         StudentDao studentDao  = new StudentDao();
         boolean flag =   studentDao.addStudent(stu);
         if(flag){
-            request.setAttribute("msg","添加成功");
-            request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
-
+//            request.setAttribute("msg","添加成功");
+//            request.getRequestDispatcher("student?op=queryAllStudent").forward(request,response);
+            session.setAttribute("msg","添加成功");
+            response.sendRedirect("manage?op=queryAllStudent");
 
         }else{
 
-            request.setAttribute("msg","添加失败");
-            request.getRequestDispatcher("addStudent.jsp").forward(request,response);
+//            request.setAttribute("msg","添加失败");
+//            request.getRequestDispatcher("addStudent.jsp").forward(request,response);
+
+            session.setAttribute("msg","添加失败");
+            response.sendRedirect("addStudent.jsp");
+
         }
 
 
