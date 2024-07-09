@@ -5,9 +5,8 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="QueryAllStudentServlet">查询全部</a>
+<%
+    response.sendRedirect("student/login.jsp");
+%>
 </body>
 </html>
