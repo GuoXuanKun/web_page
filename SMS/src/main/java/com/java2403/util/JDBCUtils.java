@@ -174,33 +174,86 @@ public class JDBCUtils {
 		return rs;
 	}
 
+	/**
+	 * 添加新对象（用户） ，并返回自动增长的主键值
+	 * @return 当返回值为   0   表示添加失败
+	 * */
+	public static int doAddObject(String sql, Object... objs) {
+		int count = 0;
+		int key =0;// 主键
+		PreparedStatement ps = null;
+		ResultSet rs  =null;
+
+		// 1 获得连接对象
+		Connection conn = getConn();
+		try {
+			// 2 获得执行语句对象
+			ps = conn.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+			for (int i = 0; i < objs.length; i++) {
+				ps.setObject(i + 1, objs[i]);
+			}
+			// 执行语句，获得执行行数
+			count = ps.executeUpdate();
+			//  当执行语句数量大于0 说明有被执行
+			if(count>0){
+				rs  = 	ps.getGeneratedKeys();// 通过ps对象，获得自动生成的key值
+				while (rs.next()){
+
+					key  = rs.getInt(1);
+				}
+
+			}
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			// 关闭资源
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+
+			// 关闭资源
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return key;
+	}
+
+
 	public static void main(String[] args) throws SQLException {
 
+//		String sql  = "insert into t_teacher(tname,password,sex,birthday,addr)values(?,?,?,?,?)";
+//		int key   = JDBCUtils.doAddObject(sql,"song2","123","男","1980-1-1","海沧");
+//
+//		System.out.println(key);
 
-		// 1 查询全部 2 根据学号查询 3 根据姓名模糊查询  4 更新数据（修改个人信息 根据sno）
-		// 如果写方法（dao中方法），怎么写 boolean addStudent(Student stu){ ... }
 
-
-
-
-//		int count  = JDBCUtils.doUpdate("delete from t_student where sno =?",108);
-//		System.out.println(count);
-		String sql  ="select sno,sname,password,sex,age from t_student where sno =? and sname=? and password =?";
-		ResultSet rs   =  JDBCUtils.doQuery(sql,100,"zhw","123");
-		List<Student> slist   = new ArrayList<>();
-		while(rs.next()){
-			Student stu   = new Student();
-			stu.setSno(rs.getInt("sno"));
-			stu.setSname(rs.getString("sname"));
-			stu.setPassword(rs.getString("password"));
-			stu.setSex(rs.getString("sex"));
-			stu.setAge(rs.getInt("age"));
-			slist.add(stu);
-		}
-		System.out.println(slist);
-
-		JDBCUtils.doClose(rs);
 
 	}
-	
+
+
+
+
+
+
 }
