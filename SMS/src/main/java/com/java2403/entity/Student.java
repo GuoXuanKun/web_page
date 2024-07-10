@@ -35,4 +35,12 @@ public class Student {
         this.age = age;
         this.password = password;
     }
+
+    public Student(int sno,String sname, String password, String sex, int age) {
+        this.sno=sno;
+        this.sname = sname;
+        this.sex = sex;
+        this.age = age;
+        this.password = password;
+    }
 }
