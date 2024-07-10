@@ -68,7 +68,7 @@
         var passwordObj  =  document.getElementsByName("password")[0];
         var flag  =true;
         // 判空校验
-        if(snoObj.value==null){
+        if(snoObj.value==null || snoObj.value==""){
             document.getElementById("showSnoInfo").innerText="学号不能为空";
             flag=false;
 
@@ -83,7 +83,7 @@
         }
 
 
-        if(passwordObj.value==null){
+        if(passwordObj.value==null || passwordObj.value==""){
             document.getElementById("showPasswordInfo").innerText="密码不能为空";
             flag=false;
         }
