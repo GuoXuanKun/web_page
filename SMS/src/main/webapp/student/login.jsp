@@ -22,7 +22,7 @@
     }
 %>
 <%=msg%>
-<%
+<%--
     String sno  = "";
     String password ="";
     String rememberMe = "";
@@ -43,17 +43,17 @@
         }
 
     }
-%>
+--%>
 <%-- 加上一个事件 ：提交事件 当事件返回值 为 true 顺利提交 为 false  不提交  --%>
 <form action="manage" method="post" onsubmit="return checkLoginInfo()">
     <input type="hidden" name="op" value="login">
-    学号 :  <input name="sno" value="<%=sno%>"/> <span id="showSnoInfo"></span> <br/>
-    密码 :  <input type="password" name="password" value="<%=password%>"/>  <span id="showPasswordInfo"></span><br/>
+    学号 :  <input name="sno" value="${cookie.sno.value}"/> <span id="showSnoInfo"></span> <br/>
+    密码 :  <input type="password" name="password" value="${cookie.password.value}"/>  <span id="showPasswordInfo"></span><br/>
     <select>
         <option>学生登录</option>
         <option>教师登录</option>
     </select>
-    <input type="checkbox"  name="rememberMe"  value="true"  <%="true".equals(rememberMe)?"checked":""%> >记住我<br/>
+    <input type="checkbox"  name="rememberMe"  value="true"  ${(empty cookie.rememberMe.value)? "":"checked"  } >记住我<br/>
     <input type="submit" value="登录"/>
 
 
