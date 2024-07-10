@@ -20,4 +20,9 @@ public class Admin {
     public void setAname(String aname) {
         this.aname = aname;
     }
+
+    public Admin(int ano, String aname) {
+        this.ano = ano;
+        this.aname = aname;
+    }
 }
