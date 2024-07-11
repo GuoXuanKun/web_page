@@ -90,7 +90,7 @@ public class StudentServlet extends HttpServlet {
         // 把数据放在属性中（行李箱中）属性名  叫 slist 后面的人就可以直接拿了
         request.setAttribute("slist",slist);
         // 跳转到显示页面
-        request.getRequestDispatcher("queryAllStudent_before.jsp").forward(request,response);
+        request.getRequestDispatcher("queryAllStudent.jsp").forward(request,response);
 
     }
 

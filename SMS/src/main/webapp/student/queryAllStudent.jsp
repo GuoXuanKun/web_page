@@ -1,78 +1,87 @@
+<%@ page import="com.java2403.entity.Student" %>
+<%@ page import="java.util.List" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: java2403
+  Date: 2024/7/2
+  Time: 10:43
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-
-<img src="../img/wyz.webp" height="100px">
-
-<img src="http://localhost:8080/JAVAEE_Project/img/wyz.webp" height="100px">
-<% Integer sno  = (Integer)   session.getAttribute("sno");
-
+<%
+    Integer sno = (Integer) session.getAttribute("sno");
+//    if(sno == null){
+//        session.setAttribute("msg","请登录后,在访问!");
+//        response.sendRedirect("login.jsp");
+//    }
 %>
-
-
-
-
-
-
-
-
-<%--        <%--%>
-<%--          String msg  = (String) request.getAttribute("msg");--%>
-<%--          if(msg!=null){--%>
-<%--        %>--%>
-<%--            alert("<%=msg%>");--%>
-<%--        <%--%>
-
-<%--          }--%>
-
-<%--        %>--%>
-
-<%--    </script>--%>
-
-
-
-<c:if test="${not empty msg}">
     <script type="text/javascript" >
-        alert(${msg});
+
+
+        <%
+          String msg  = (String) request.getAttribute("msg");
+          if(msg!=null){
+        %>
+            alert("<%=msg%>");
+        <%
+
+          }
+
+        %>
+
     </script>
 
 
+    <%
+     List<Student> slist   = (List<Student>) request.getAttribute("slist");// 通过属性名 slist 获得 数据
 
-</c:if>
+    %>
+
+    <table border="1">
+        <tr><th>学号</th><th>姓名</th><th>密码</th><th>性别</th><th>年龄</th><th>操作</th></tr>
 
 
-
-
-
-<table border="1">
-    <tr><th>学号</th><th>姓名</th><th>密码</th><th>性别</th><th>年龄</th><th>操作</th></tr>
-
-    <c:forEach items="${slist}" var="s">
+    <%
+        for(Student stu :slist){
+    %>
         <tr>
-            <td>${s.sno}</td>
-            <td>${s.sname}</td>
-            <td>${s.password}</td>
-            <td>${s.sex}</td>
-            <td>${s.age}</td>
+            <td><%=stu.getSno()%></td>
+            <td><%=stu.getSname()%></td>
+            <td><%=stu.getPassword()%></td>
+            <td><%=stu.getSex()%></td>
+            <td><%=stu.getAge()%></td>
             <td>
-                <a href="?op=queryStudentBySno&sno=${s.getSno}">修改</a>|  <button onclick="deleteFunc(${s.getSno})">删除</button>| <a href="manage?op=deleteStudentBySno&sno=${s.getSno}">删除</a>
+                <a href="?op=queryStudentBySno&sno=<%=stu.getSno()%>">修改</a>|  <button onclick="deleteFunc(<%=stu.getSno()%>)">删除</button>| <a href="manage?op=deleteStudentBySno&sno=<%=stu.getSno()%>">删除</a>
             </td>
         </tr>
 
+    <%
+        }
+    %>
+    </table>
 
-    </c:forEach>
+<script type="text/javascript">
+
+    function  deleteFunc(sno){
+
+        // window.alert("消息弹出框");
+        // window.prompt("输入弹出框","默认值");
+        var flag =  window.confirm("确认删除学号是"+sno+"学生信息吗？");
+
+        if(flag){
+            location.href="manage?op=deleteStudentBySno&sno="+sno;
+        }
 
 
 
-</table>
+    }
 
-
-
+</script>
 
 
 
