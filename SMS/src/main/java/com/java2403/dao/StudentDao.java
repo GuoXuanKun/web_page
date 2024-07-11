@@ -124,21 +124,6 @@ public class StudentDao {
     }
 
 
-    public static void main(String[] args) {
-
-        // System.out.println(   new StudentDao().login(100,"123"));
-        /*Student s = new Student();
-        s.setAge(18);
-        s.setSex("男");
-        s.setPassword("123");
-        s.setSname("wqe");
-        s.setSno(102);
-        System.out.println(new StudentDao().update(s));*/
-
-        StudentDao studentDao = new StudentDao();
-        studentDao.deleteBySno(1);
-        System.out.println(studentDao.queryStuByLike("王"));
-    }
 
     /**
      * 根据学号 查询学生信息
@@ -167,5 +152,49 @@ public class StudentDao {
         }
     }
 
-    // 选做： 分页查询（难度）  分组查询等等
+    /**
+     * 分页的方式查询
+     * @param pageIndex 第几页
+     * @param pageSize  一页几条
+     * @return
+     */
+    public List<Student> queryAllStudentByPage(int pageIndex,int pageSize){
+
+        List<Student> slist  = new ArrayList<>();
+        String sql  ="select sno ,sname,password,sex,age from t_student limit ?,?";
+        //                                    (页数-1)*一页几条
+        ResultSet rs  =  JDBCUtils.doQuery(sql,(pageIndex-1)*pageSize,pageSize);
+        try{
+            while (rs.next()){
+                Student stu   = new Student();
+                stu.setSno(rs.getInt("sno"));
+                stu.setSname(rs.getString("sname"));
+                stu.setPassword(rs.getString("password"));
+                stu.setSex(rs.getString("sex"));
+                stu.setAge(rs.getInt("age"));
+                slist.add(stu);
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.doClose(rs);
+        }
+        return  slist;
+    }
+
+
+
+
+
+    public static void main(String[] args) {
+
+        StudentDao studentDao = new StudentDao();
+        List<Student> list = studentDao.queryAllStudentByPage(1,3);
+        for (Student stu: list ) {
+            System.out.println(stu);
+        }
+    }
+
 }
