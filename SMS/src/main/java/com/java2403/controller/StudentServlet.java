@@ -68,6 +68,8 @@ public class StudentServlet extends HttpServlet {
             logout(request,response);
         }else if("admin".equals(op)){
             admin(request,response);
+        }else  if("queryAllStudentByPage".equals(op)){ //查询全部
+            queryAllStudentByPage(request,response);
         }
 
 
@@ -334,4 +336,42 @@ public class StudentServlet extends HttpServlet {
 //        application.setAttribute("ADDR_COUNT",ADDR_COUNT);
         response.sendRedirect("admin.jsp");
     }
+    protected void queryAllStudentByPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        int pageIndex  = 1;// 默认值为第一页
+        int pageSize  = 5;// 默认值为 一页5条
+        String pageIndex_str  =  request.getParameter("pageIndex");
+        String pageSize_str  =    request.getParameter("pageSize");
+
+        try{
+            pageIndex  =   Integer.parseInt(pageIndex_str);
+        }catch (Exception e){
+            System.out.println("传入的是非数字，pageindex默认为 1");
+        }
+
+
+        try{
+            pageSize  =   Integer.parseInt(pageSize_str);
+        }catch (Exception e){
+            System.out.println("传入的是非数字，pageSize  5");
+        }
+
+
+
+
+
+        StudentDao studentDao  = new StudentDao();
+        List<Student> slist   =  studentDao.queryAllStudentByPage(pageIndex,pageSize);
+        // 把数据放在属性中（行李箱中）属性名  叫 slist 后面的人就可以直接拿了
+        //PageInfo<Student> pageInfo  = new PageInfo<>();
+        //pageInfo.setData(slist);
+        // 剩下的数据怎么得到？ 一共几页 怎么得到  去数据库 查看一个 一共几条数据，然后 除 5 （什么情况+1 什么情况不+1 ）
+
+
+        request.setAttribute("slist",slist);
+
+        // 跳转到显示页面
+        request.getRequestDispatcher("queryAllStudentByPage.jsp").forward(request,response);
+
+    }
+
 }
