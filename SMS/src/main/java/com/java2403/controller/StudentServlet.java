@@ -68,7 +68,7 @@ public class StudentServlet extends HttpServlet {
             logout(request,response);
         }else if("admin".equals(op)){
             admin(request,response);
-        }else  if("queryAllStudentByPage".equals(op)){ //查询全部
+        }else if("queryAllStudentByPage".equals(op)){ //查询全部
             queryAllStudentByPage(request,response);
         }
 
