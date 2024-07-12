@@ -9,7 +9,10 @@
 
 
 <div style="width: 1000px;margin: auto" >
-    学号：<input/>姓名：<input/>性别：<select><option>不限</option><option>男</option><option>女</option> </select>  年龄：<input/>
+    学号：<input/>
+    姓名：<input/>
+    性别：<select><option>不限</option><option>男</option><option>女</option> </select>
+    年龄：<input/>
     <button>查询</button>
 </div>
 
@@ -84,7 +87,7 @@
        <option ${pageInfo.pageSize==10?"selected":""}>10</option>
        <option ${pageInfo.pageSize==20?"selected":""}>20</option>
        </select>条
-    总条数 23
+    总条数 ${pageInfo.totalData}
 
 </div>
 
