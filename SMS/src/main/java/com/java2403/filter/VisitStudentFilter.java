@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "VisitStudentFilter",value = "/student/*")
+//@WebFilter(filterName = "VisitStudentFilter",value = "/student/*")
 public class VisitStudentFilter implements Filter {
 
     @Override
