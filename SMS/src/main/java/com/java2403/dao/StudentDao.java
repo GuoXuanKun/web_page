@@ -217,13 +217,74 @@ public class StudentDao {
 
 
 
-    public static void main(String[] args) {
+    /**
+     * 分页的方式查询2（加入了查询条件）
+     *
+     * @return
+     */
+    public List<Student> queryAllStudentByPage2( String sno,String sname,String sex,String age,int pageIndex,int pageSize){
 
-        StudentDao studentDao = new StudentDao();
-        List<Student> list = studentDao.queryAllStudentByPage(1,3);
-        for (Student stu: list ) {
-            System.out.println(stu);
+        List<Student> slist  = new ArrayList<>();
+        String sql  ="select sno ,sname,password,sex,age from t_student where sno like ? and sname like ? and  sex like ?  " +
+                "and age like ?  limit ?,?";
+        //                                    (页数-1)*一页几条
+        ResultSet rs  =  JDBCUtils.doQuery(sql,sno,sname,sex,age,(pageIndex-1)*pageSize,pageSize);
+        try{
+            while (rs.next()){
+                Student stu   = new Student();
+                stu.setSno(rs.getInt("sno"));
+                stu.setSname(rs.getString("sname"));
+                stu.setPassword(rs.getString("password"));
+                stu.setSex(rs.getString("sex"));
+                stu.setAge(rs.getInt("age"));
+                slist.add(stu);
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.doClose(rs);
         }
+        return  slist;
+    }
+
+
+
+    /**
+     * 获得 查询全部学生的 总条数  带条件
+     * @return 总条数
+     */
+    public int queryAllStudentByPage2_count(String sno,String sname,String sex,String age){
+        int totalData = 0;
+
+        List<Student> slist  = new ArrayList<>();
+        String sql  ="select count(*) count from t_student  where sno like ? and sname like ? and  sex like ?  and age like ?  ";
+        //                                    (页数-1)*一页几条
+        ResultSet rs  =  JDBCUtils.doQuery(sql,sno,sname,sex,age);
+
+        try{
+            while (rs.next()){
+
+                totalData= rs.getInt("count");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.doClose(rs);
+        }
+        return  totalData;
+    }
+
+
+
+
+
+
+    public static void main(String[] args) {
+        StudentDao studentDao = new StudentDao();
+        System.out.println(studentDao.queryAllStudentByPage2_count("%%", "%白%", "%%", "%%"));
     }
 
 }

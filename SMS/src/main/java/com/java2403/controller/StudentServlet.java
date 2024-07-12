@@ -71,6 +71,8 @@ public class StudentServlet extends HttpServlet {
             admin(request,response);
         }else if("queryAllStudentByPage".equals(op)){ //查询全部
             queryAllStudentByPage(request,response);
+        }else  if("queryAllStudentByPage2".equals(op)){ //查询全部
+            queryAllStudentByPage2(request,response);
         }
 
 
@@ -387,5 +389,41 @@ public class StudentServlet extends HttpServlet {
         request.getRequestDispatcher("queryAllStudentByPage.jsp").forward(request,response);
 
     }
+
+
+    protected void queryAllStudentByPage2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+
+        String sno =  request.getParameter("sno");
+        String sname =  request.getParameter("sname");
+        String sex =  request.getParameter("sex");
+        String age =  request.getParameter("age");
+
+        if(sno==null || "".equals(sno)){
+            sno="%%";
+        }
+
+        if(sname==null || "".equals(sname)){
+            sname="%%";
+        }else{
+            sname="%"+sname+"%";
+        }
+
+        if(sex==null || "".equals(sex)){
+            sex="%%";
+        }
+
+        if(age==null || "".equals(age)){
+            age="%%";
+        }
+
+        StudentDao studentDao  = new StudentDao();
+        System.out.println(studentDao.queryAllStudentByPage2(sno, sname, sex, age, 1, 50));
+
+        // 跳转到显示页面
+        request.getRequestDispatcher("queryAllStudentByPage2.jsp").forward(request,response);
+
+    }
+
 
 }
