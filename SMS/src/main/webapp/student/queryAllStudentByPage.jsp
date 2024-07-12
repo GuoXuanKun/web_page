@@ -36,11 +36,11 @@
     一共几页${pageInfo.totalPage}<br/>
     一共几条${pageInfo.totalData}<br/>
 
-    <a href="manage?op=queryAllStudentByPage&pageIndex=1" >首页</a>
+    <a href="manage?op=queryAllStudentByPage&pageIndex=1&pageSize=${pageInfo.pageSize}" >首页</a>
 
     <c:choose>
         <c:when test="${pageInfo.pageIndex>1}">
-            <a href="manage?op=queryAllStudentByPage&pageIndex=${pageInfo.pageIndex-1}" >上一页</a>
+            <a href="manage?op=queryAllStudentByPage&pageIndex=${pageInfo.pageIndex-1}&pageSize=${pageInfo.pageSize}" >上一页</a>
         </c:when>
         <c:otherwise>
             上一页
@@ -51,7 +51,7 @@
 
         <c:choose>
             <c:when test="${pageInfo.pageIndex!=i }">
-                <a href="manage?op=queryAllStudentByPage&pageIndex=${i}" >${i}</a>
+                <a href="manage?op=queryAllStudentByPage&pageIndex=${i}&pageSize=${pageInfo.pageSize}" >${i}</a>
             </c:when>
             <c:otherwise>
                 ${i}
@@ -67,7 +67,7 @@
 
     <c:choose>
         <c:when test="${pageInfo.pageIndex<pageInfo.totalPage}">
-            <a href="manage?op=queryAllStudentByPage&pageIndex=${pageInfo.pageIndex+1}" >下一页</a>
+            <a href="manage?op=queryAllStudentByPage&pageIndex=${pageInfo.pageIndex+1}&pageSize=${pageInfo.pageSize}" >下一页</a>
         </c:when>
         <c:otherwise>
             下一页
@@ -76,13 +76,32 @@
 
 
 
-    <a href="manage?op=queryAllStudentByPage&pageIndex=${pageInfo.totalPage}" >尾页</a>
+    <a href="manage?op=queryAllStudentByPage&pageIndex=${pageInfo.totalPage}&pageSize=${pageInfo.pageSize}" >尾页</a>
 
-    跳转到<input value="${pageInfo.pageIndex}" >页<button>跳转</button>
-    一页<select><option>5</option><option>10</option><option>20</option></select>条
+    跳转到<input type="number" value="${pageInfo.pageIndex}" id="jumpIndex">页<button onclick="jumpPage()">跳转</button>
+    一页<select onchange="changePageSize(this)">
+       <option ${pageInfo.pageSize==5?"selected":""}>5</option>
+       <option ${pageInfo.pageSize==10?"selected":""}>10</option>
+       <option ${pageInfo.pageSize==20?"selected":""}>20</option>
+       </select>条
     总条数 23
 
 </div>
+
+<script>
+    function jumpPage(){
+        var jumpIndex = document.getElementById("jumpIndex").value;
+        location.href = "manage?op=queryAllStudentByPage&pageIndex="+jumpIndex+"&pageSize=${pageInfo.pageSize}";
+    }
+
+    function  changePageSize(obj){
+        // alert(obj.value);
+        location.href="manage?op=queryAllStudentByPage&pageIndex=1&pageSize="+obj.value;
+    }
+
+
+
+</script>
 
 
 
