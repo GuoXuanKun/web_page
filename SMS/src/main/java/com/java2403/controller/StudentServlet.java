@@ -1,6 +1,7 @@
 package com.java2403.controller;
 
 import com.java2403.dao.StudentDao;
+import com.java2403.entity.PageInfo;
 import com.java2403.entity.Student;
 
 import javax.servlet.*;
@@ -361,14 +362,27 @@ public class StudentServlet extends HttpServlet {
 
         StudentDao studentDao  = new StudentDao();
         List<Student> slist   =  studentDao.queryAllStudentByPage(pageIndex,pageSize);
+        // 总条数
+        int totalData  = studentDao.queryAllStudentByPage_count();
+        // 总页数
+        int totalPage  = totalData/pageSize  + ((totalData%pageSize==0)?0:1);// 当 总条数 不能被  一页几条 整除 ，需要 +1
+
+        PageInfo<Student> pageInfo  = new PageInfo<>();
+        pageInfo.setPageIndex(pageIndex);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setTotalPage(totalPage);
+        pageInfo.setTotalData(totalData);
+        pageInfo.setData(slist);
+
+
         // 把数据放在属性中（行李箱中）属性名  叫 slist 后面的人就可以直接拿了
         //PageInfo<Student> pageInfo  = new PageInfo<>();
         //pageInfo.setData(slist);
         // 剩下的数据怎么得到？ 一共几页 怎么得到  去数据库 查看一个 一共几条数据，然后 除 5 （什么情况+1 什么情况不+1 ）
 
 
-        request.setAttribute("slist",slist);
-
+//        request.setAttribute("slist",slist);
+        request.setAttribute("pageInfo",pageInfo);
         // 跳转到显示页面
         request.getRequestDispatcher("queryAllStudentByPage.jsp").forward(request,response);
 

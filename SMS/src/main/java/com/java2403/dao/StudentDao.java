@@ -187,6 +187,35 @@ public class StudentDao {
 
 
 
+    /**
+     * 获得 查询全部学生的 总条数
+     * @return 总条数
+     */
+    public int queryAllStudentByPage_count(){
+        int totalData = 0;
+
+        List<Student> slist  = new ArrayList<>();
+        String sql  ="select count(*) count from t_student   ";
+        // 返回所有条数
+        ResultSet rs  =  JDBCUtils.doQuery(sql);
+
+        try{
+            while (rs.next()){
+
+                totalData= rs.getInt("count");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.doClose(rs);
+        }
+        return  totalData;
+    }
+
+
+
+
 
     public static void main(String[] args) {
 
