@@ -30,6 +30,9 @@
 <%--%>--%>
 <h1>欢迎 <%=session.getAttribute("sno")%> 同学，登录学生管理系统  -- <a href="manage?op=logout">登出</a></h1>
 <a href="manage?op=queryAllStudent">查询全部(管理员权限)</a><br/>
+
+<a href="manage?op=queryAllStudentByPage2">查询全部（分页 带 条件）</a><br/>
+
 <a href="manage?op=queryMyInfo&sno=<%=sno%>">查询本人信息</a><br/>
 <a href="addStudent.jsp">添加学生信息(类似于注册)</a><br/>
 
