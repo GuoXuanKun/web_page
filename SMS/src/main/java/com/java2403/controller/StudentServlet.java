@@ -394,11 +394,33 @@ public class StudentServlet extends HttpServlet {
     protected void queryAllStudentByPage2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
 
+        int pageIndex  = 1;// 默认值为第一页
+        int pageSize  = 5;// 默认值为 一页5条
+        String pageIndex_str  =  request.getParameter("pageIndex");
+        String pageSize_str  =    request.getParameter("pageSize");
+
+        try{
+            pageIndex  =   Integer.parseInt(pageIndex_str);
+        }catch (Exception e){
+            System.out.println("传入的是非数字，pageindex默认为 1");
+        }
+
+
+        try{
+            pageSize  =   Integer.parseInt(pageSize_str);
+        }catch (Exception e){
+            System.out.println("传入的是非数字，pageSize  5");
+        }
+
+
+
+
+
         String sno =  request.getParameter("sno");
         String sname =  request.getParameter("sname");
         String sex =  request.getParameter("sex");
         String age =  request.getParameter("age");
-
+        //判断
         if(sno==null || "".equals(sno)){
             sno="%%";
         }
@@ -406,7 +428,7 @@ public class StudentServlet extends HttpServlet {
         if(sname==null || "".equals(sname)){
             sname="%%";
         }else{
-            sname="%"+sname+"%";
+            sname="%"+sname+"%"; // %浩%
         }
 
         if(sex==null || "".equals(sex)){
@@ -418,7 +440,21 @@ public class StudentServlet extends HttpServlet {
         }
 
         StudentDao studentDao  = new StudentDao();
-        System.out.println(studentDao.queryAllStudentByPage2(sno, sname, sex, age, 1, 50));
+        // 当前页的学生信息
+        List<Student> slist   = studentDao.queryAllStudentByPage2(sno, sname, sex, age, pageIndex, pageSize);
+        // 总条数
+        int totalData  = studentDao.queryAllStudentByPage2_count(sno, sname, sex, age);
+        // 总页数
+        int totalPage  = totalData/pageSize  + ((totalData%pageSize==0)?0:1);// 当 总条数 不能被  一页几条 整除 ，需要 +1
+
+        PageInfo<Student> pageInfo  = new PageInfo<>();
+        pageInfo.setPageIndex(pageIndex);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setTotalPage(totalPage);
+        pageInfo.setTotalData(totalData);
+        pageInfo.setData(slist);
+
+        request.setAttribute("pageInfo",pageInfo);
 
         // 跳转到显示页面
         request.getRequestDispatcher("queryAllStudentByPage2.jsp").forward(request,response);
