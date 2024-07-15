@@ -38,14 +38,15 @@
     <tr><th>学号</th><th>姓名</th><th>密码</th><th>性别</th><th>年龄</th><th>操作</th></tr>
 
 </table>
-<div style="width: 1000px;margin: auto" id="showPageIndex" >
+<div style="width: 1000px;margin:auto;text-align: center" id="showPageIndex" >
 
 
 </div>
 
-
+<div style="text-align: center;margin-top: 10px">
     跳转到<input type="number"  id="jumpIndex">页<button onclick="jumpPage()">跳转</button>
-    一页<select>
+    一页
+<select id="pageSize" onchange="query(1)">
     <option>5</option>
     <option>10</option>
     <option>20</option>
@@ -73,6 +74,16 @@
   // 定义了一个查询函数
     function  query(index){
 
+        //  获得 一页几条数据的下拉框数据
+        size =    document.getElementById("pageSize").value;
+
+        //获得 四个 查询条件
+        var sno  = document.getElementById("sno").value;
+        var sname  = document.getElementById("sname").value;
+        var sex  = document.getElementById("sex").value;
+        var age  = document.getElementById("age").value;
+
+
 
         $.ajax({
             url:"manage",
@@ -80,7 +91,11 @@
             data:{
                 op:"queryAllStudentByPageAndAjax",
                 pageIndex:index,
-                pageSize:5
+                pageSize:size,
+                sno:sno,
+                sname:sname,
+                sex:sex,
+                age:age
             },
             dataType:"JSON",
             success:function (data){
@@ -98,17 +113,25 @@
 
 
 
-                var str2="<a href='javascript:query(1)' >首页</a>";
-
+                var str2="<a href='javascript:query(1)' >首页</a>   ";
+                // 上一页
+                str2+="<a href='javascript:query("+ (data.pageIndex-1) +")' >上一页</a>  ";
 
                 /* 怎么写？？？for循环  */
+                for(var i=1;i<=data.totalPage;i++){
+                    str2+="<a href='javascript:query("+ i +")' >"+ i +"</a>  ";
+                }
+                // 下一页
+                str2+=" <a href='javascript:query("+ (data.pageIndex+1) +")' >下一页</a>  ";
+
 
 
                 str2+="<a href='javascript:query("+ data.totalPage +")' >尾页</a>";
 
                 document.getElementById("showPageIndex").innerHTML=str2;
 
-
+                // 显示 在 输入框中 第几页 (当前页)
+                document.getElementById("jumpIndex").value=data.pageIndex;
             }
 
         });
