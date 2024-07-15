@@ -12,6 +12,7 @@ public class CharacterEncodingFilter  implements Filter {
 
         servletRequest.setCharacterEncoding("utf-8");
         servletResponse.setCharacterEncoding("utf-8");
+        servletResponse.setContentType("text/html;charset=UTF-8");
 
         System.out.println("中文处理");
 
