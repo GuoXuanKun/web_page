@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>Title</title>
+
+    <script type="text/javascript"  src="../js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <%
@@ -47,7 +49,7 @@
 <%-- 加上一个事件 ：提交事件 当事件返回值 为 true 顺利提交 为 false  不提交  --%>
 <form action="manage" method="post" onsubmit="return checkLoginInfo()">
     <input type="hidden" name="op" value="login">
-    学号 :  <input name="sno" value="${cookie.sno.value}"/> <span id="showSnoInfo"></span> <br/>
+    学号 :  <input name="sno" value="${cookie.sno.value}" onblur="isSnoExist(this)"/> <span id="showSnoInfo"></span> <br/>
     密码 :  <input type="password" name="password" value="${cookie.password.value}"/>  <span id="showPasswordInfo"></span><br/>
     <select>
         <option>学生登录</option>
@@ -61,6 +63,46 @@
 
 
 <script type="text/javascript">
+
+    function  isSnoExist(obj){
+
+        // alert("this.value:"+obj.value);
+        $.ajax({
+            url:"manage",
+            type:"post",
+            data:{
+                op:"isSnoExist",
+                sno:obj.value
+            },
+            dataType:"JSON",// 什么要用json格式？
+            success:function (data){
+                var showSnoInfoObj  =  document.getElementById("showSnoInfo");
+                //  如果是    dataType:"text",  data 为字符串 ，不能做 逻辑判断
+                // 如果是  dataType:"JSON",  返回的就是 json对象，根据数据类型转换 这就是 boolean类型
+                if(data){
+                    showSnoInfoObj.style.color="green";
+                    showSnoInfoObj.innerText="学号存在，可以使用";
+
+                }else{
+                    showSnoInfoObj.style.color="red";
+                    showSnoInfoObj.innerText="学号不存在，请重新输入";
+                }
+
+            }
+
+
+        });
+
+    }
+
+
+
+
+
+
+
+
+
     /* 这个 方法 可以做检验   */
     function  checkLoginInfo(){
 

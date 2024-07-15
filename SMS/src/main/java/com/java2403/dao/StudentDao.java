@@ -278,6 +278,26 @@ public class StudentDao {
     }
 
 
+    /**
+     * 校验 学号 是否存在
+     * @param sno
+     * @return
+     */
+    public  boolean isSnoExist(int sno){
+        boolean flag  =false;
+        ResultSet  rs  =  JDBCUtils.doQuery("select sno from t_student where sno =?",sno);
+        try {
+            if(rs.next()){
+                flag=true;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            JDBCUtils.doClose(rs);
+        }
+        return  flag;
+
+    }
 
 
 

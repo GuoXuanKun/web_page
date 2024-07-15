@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,10 @@ public class StudentServlet extends HttpServlet {
             queryAllStudentByPage(request,response);
         }else  if("queryAllStudentByPage2".equals(op)){ //查询全部
             queryAllStudentByPage2(request,response);
+        }else  if("isSnoExist".equals(op)){
+
+            isSnoExist(request,response);
+
         }
 
 
@@ -461,5 +466,27 @@ public class StudentServlet extends HttpServlet {
 
     }
 
+    /**
+     * 校验 学号是否存在
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void isSnoExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String sno_str  =   request.getParameter("sno");
+        int sno  = Integer.parseInt(sno_str);
+        StudentDao studentDao  = new StudentDao();
+        boolean flag  =  studentDao.isSnoExist(sno);
+
+        PrintWriter out  =  response.getWriter();
+        out.println(flag);
+        out.flush();
+        out.close();
+
+
+
+    }
 
 }

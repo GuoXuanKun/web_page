@@ -26,7 +26,7 @@ public class VisitStudentFilter implements Filter {
         }
         // 再次放判断一下，如果请出参数 op 的值 为 login  ，说明它准备去登录，也要放行
         String op   = request.getParameter("op");
-        if("login".equals(op)){
+        if("login".equals(op) ||"isSnoExist".equals(op)){
             chain.doFilter(request, response);// 放行，让他去 下一个目的地
             return; // 防止后面 再执行 后续的代码
         }
