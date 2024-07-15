@@ -15,12 +15,12 @@ public class Demo03Filter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        System.out.println("Demo03Filter  前");
+//        System.out.println("Demo03Filter  前");
 
 
         chain.doFilter(request, response);
 
-        System.out.println("Demo03Filter  后");
+//        System.out.println("Demo03Filter  后");
 
     }
 }
