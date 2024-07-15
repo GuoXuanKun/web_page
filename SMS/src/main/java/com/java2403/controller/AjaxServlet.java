@@ -113,6 +113,12 @@ public class AjaxServlet extends HttpServlet {
         List<Student> list   =  studentDao.queryAllStudent();
         String list_str   =   JSON.toJSONString(list);
 
+        try{
+            Thread.sleep(5000);
+        }catch (Exception e){
+
+        }
+
 
         // 返回数据 响应数据
         PrintWriter out  =  response.getWriter();

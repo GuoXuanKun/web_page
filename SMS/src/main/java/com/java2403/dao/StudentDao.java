@@ -161,7 +161,8 @@ public class StudentDao {
     public List<Student> queryAllStudentByPage(int pageIndex,int pageSize){
 
         List<Student> slist  = new ArrayList<>();
-        String sql  ="select sno ,sname,password,sex,age from t_student limit ?,?";
+        //  修改sql语句 加入 ifnull 为空字符串
+        String sql  ="select sno ,ifnull(sname,'') sname,ifnull(password,'') password,ifnull(sex,'') sex,age from t_student   limit ?,?";
         //                                    (页数-1)*一页几条
         ResultSet rs  =  JDBCUtils.doQuery(sql,(pageIndex-1)*pageSize,pageSize);
         try{

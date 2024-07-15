@@ -1,5 +1,6 @@
 package com.java2403.controller;
 
+import com.alibaba.fastjson2.JSON;
 import com.java2403.dao.StudentDao;
 import com.java2403.entity.PageInfo;
 import com.java2403.entity.Student;
@@ -77,6 +78,9 @@ public class StudentServlet extends HttpServlet {
         }else  if("isSnoExist".equals(op)){
 
             isSnoExist(request,response);
+        }else  if("queryAllStudentByPageAndAjax".equals(op)){ //查询全部
+
+            queryAllStudentByPageAndAjax(request,response);
 
         }
 
@@ -488,5 +492,52 @@ public class StudentServlet extends HttpServlet {
 
 
     }
+
+
+    protected void queryAllStudentByPageAndAjax(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        int pageIndex=1;
+        int pageSize =5;
+
+        String pageIndex_str  =  request.getParameter("pageIndex");
+        String pageSize_str  =  request.getParameter("pageSize");
+
+        try {
+            pageIndex  = Integer.parseInt(pageIndex_str);
+        }catch (Exception e){
+            System.out.println("输入有误，pageIndex默认为1");
+        }
+        try {
+            pageSize  = Integer.parseInt(pageSize_str);
+        }catch (Exception e){
+            System.out.println("输入有误，pageSize默认为5");
+        }
+
+
+        StudentDao studentDao  = new StudentDao();
+        List<Student> list   =  studentDao.queryAllStudentByPage(pageIndex,pageSize);
+        int  totalData   =  studentDao.queryAllStudentByPage_count();//总条数
+        int totalPage  = totalData/pageSize+ ((totalData%pageSize==0)?0:1);// 总页数
+
+        PageInfo<Student> pageInfo  = new PageInfo<>();
+        pageInfo.setPageIndex(pageIndex);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setTotalData(totalData);
+        pageInfo.setTotalPage(totalPage);
+        pageInfo.setData(list);
+
+        // 将数据转换成  json格式  会把null的数据 去掉，没了 怎么办呢  修改sql语句 加入 ifnull 为空字符串
+        String str=  JSON.toJSONString(pageInfo);
+
+
+
+        PrintWriter out =  response.getWriter();
+        out.println(str);
+        out.flush();
+        out.close();
+
+
+    }
+
 
 }
