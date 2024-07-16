@@ -19,6 +19,7 @@ public class CharacterEncodingFilter  implements Filter {
         String uri =req.getRequestURI();
         if(uri.contains("/ueditor")){
             filterChain.doFilter(servletRequest,servletResponse);
+            return;
         }
 
 
