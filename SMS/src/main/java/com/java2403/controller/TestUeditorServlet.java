@@ -1,6 +1,7 @@
 package com.java2403.controller;
 
 import com.java2403.dao.BLogDao;
+import com.java2403.dao.BlogDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +22,8 @@ public class TestUeditorServlet extends HttpServlet {
         String title  = request.getParameter("title");
         String content  = request.getParameter("content");
 
-        BLogDao bLogDao  = new BLogDao();
-       boolean flag  =  bLogDao.addBlog(title,content);
+        BlogDao blogDao = new BlogDao();
+        boolean flag  =  blogDao.addBlog(title,content);
 
 
         System.out.println(flag );
